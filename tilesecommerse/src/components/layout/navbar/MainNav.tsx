@@ -9,6 +9,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 export const MainNav = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeSubDropdown, setActiveSubDropdown] = useState<string | null>(null);
+  const [subDropdownTop, setSubDropdownTop] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [mobileSubExpanded, setMobileSubExpanded] = useState<string | null>(null);
@@ -129,9 +130,10 @@ export const MainNav = () => {
                         <li
                           key={sub.name}
                           className="relative"
-                          onMouseEnter={() => {
+                          onMouseEnter={(e) => {
                             if (sub.children && sub.children.length > 0) {
                               setActiveSubDropdown(sub.slug);
+                              setSubDropdownTop((e.currentTarget as HTMLElement).offsetTop);
                             }
                           }}
                           onMouseLeave={(e) => {
@@ -161,11 +163,8 @@ export const MainNav = () => {
                         <div
                           key={`nested-${sub.slug}`}
                           data-nested-dropdown
-                          className="absolute left-full top-0 bg-white text-slate-800 shadow-2xl rounded-lg min-w-[240px] max-h-[500px] overflow-y-auto border border-gray-200"
-                          style={{
-                            zIndex: 10000,
-                            marginTop: `${category.subcategories.findIndex((s: any) => s.slug === sub.slug) * 40 + 8}px`
-                          }}
+                          className="absolute left-full bg-white text-slate-800 shadow-2xl rounded-lg min-w-[240px] max-h-[500px] overflow-y-auto border border-gray-200"
+                          style={{ zIndex: 10000, top: subDropdownTop }}
                           onMouseEnter={() => setActiveSubDropdown(sub.slug)}
                           onMouseLeave={() => setActiveSubDropdown(null)}
                         >

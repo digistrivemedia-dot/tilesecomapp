@@ -221,7 +221,8 @@ const Search = async ({ searchParams }: SearchProps) => {
     const name = findCategoryName(dbCategories, slug);
     if (name) { pageTitle = name; break; }
     // Fallback: if slug didn't match any category, use the slug itself as title (e.g. brand name)
-    pageTitle = slug.charAt(0).toUpperCase() + slug.slice(1);
+    // Convert "godrej-ultra-lock" → "Godrej Ultra Lock"
+    pageTitle = slug.split("-").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
     break;
   }
 
