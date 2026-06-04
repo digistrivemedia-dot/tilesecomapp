@@ -52,7 +52,9 @@ const Search = async ({ searchParams }: SearchProps) => {
   const allProducts = await getAllProducts();
 
   // Fetch categories to get proper hierarchy
-  const categoriesResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000/api/v1'}/categories`);
+  const categoriesResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000/api/v1'}/categories`, {
+    next: { revalidate: 3600 }, // cache for 1 hour — categories rarely change
+  });
   const categoriesData = await categoriesResponse.json();
   const dbCategories = categoriesData.categories || [];
 

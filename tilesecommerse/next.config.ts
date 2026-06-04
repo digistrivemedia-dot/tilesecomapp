@@ -25,8 +25,11 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ['image/webp'],
-    // Allow all external images for blog posts
-    unoptimized: false,
+    // Cache optimized images for 24 hours — reduces repeated transformations on Vercel
+    minimumCacheTTL: 86400,
+    // Limit device sizes to reduce the number of unique image variants generated
+    deviceSizes: [640, 750, 1080, 1920],
+    imageSizes: [64, 128, 256, 384],
   },
   experimental: {
     serverActions: {

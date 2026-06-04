@@ -285,7 +285,9 @@ export async function searchProducts(query: string) {
 }
 
 export async function revalidateProducts(productId?: string) {
-  // Revalidate all dynamic product and category pages
-  revalidatePath('/', 'layout');
+  // Only revalidate pages that actually show product data
+  // DO NOT use revalidatePath('/', 'layout') — that nukes every page in the app
+  revalidatePath('/');          // home page
+  revalidatePath('/search');    // search/browse page
   return { success: true };
 }
